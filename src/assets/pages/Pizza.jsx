@@ -1,19 +1,21 @@
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
+import { useParams } from 'react-router-dom'
 
 
 export default function Pizza() {
-  const [Pizza, setPizza] = useState(null);
+  const { id } = useParams()
+  const [Pizza, setPizza] = useState(null)
   
   useEffect(()=>{
-    buscarPizza()
-  }, [])
+    if (id) buscarPizza(id)
+  }, [id])
 
-  const formatNumber = (num) => num.toLocaleString();
+  const formatNumber = (num) => num.toLocaleString()
   
-  const buscarPizza = async () => {
-    const url = "http://localhost:5000/api/pizzas/p001"
+  const buscarPizza = async (pizzaId) => {
+    const url = `http://localhost:5000/api/pizzas/${pizzaId}`
     const response = await fetch(url)
     const data = await response.json()
     setPizza(data)

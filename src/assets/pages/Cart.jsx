@@ -1,11 +1,13 @@
-import { useCart } from "../../components/CartContext";
+import { useCart } from "../../components/CartContext"
+import { useUser } from '../../components/UserContext'
 
 export function formatNumber(num) {
-  return num.toLocaleString('es-CL');
+  return num.toLocaleString('es-CL')
 }
 
 export default function Cart() {
-  const { cart, updateCount, total } = useCart();
+  const { cart, updateCount, total } = useCart()
+  const { token, logout } = useUser()
 
   return (
     <div className="cart">
@@ -24,7 +26,7 @@ export default function Cart() {
         </div>
       ))}
       <h1>Total: ${formatNumber(total)}</h1>
-      <button>Pagar</button>
+      <button disabled={!token}>Pagar</button>
     </div>
   );
 }

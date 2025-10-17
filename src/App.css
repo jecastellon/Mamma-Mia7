@@ -1,5 +1,9 @@
 /*Se incluyen al inicio las nuevas adiciones al CSS*/
 
+.active{
+  color: green
+}
+
 .pizza-sola {
   display: flex;
   justify-content: center;

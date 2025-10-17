@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
+import { Link } from 'react-router-dom'
 import { formatNumber } from '../utils/format'
 import { useCart } from './CartContext'
 
@@ -25,7 +26,9 @@ export default function CardPizza(props) {
           <b>Precio: ${formatNumber(props.price)}</b>
         </Card.Text>
         <div className="card-buttons">
+        <Link to={`/pizza/${props.id}`}>
         <Button variant="light">Ver más👀</Button>
+        </Link>
         <Button
             variant="dark"
             onClick={() => addToCart({

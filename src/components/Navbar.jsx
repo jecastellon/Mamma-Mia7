@@ -1,48 +1,50 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Button from 'react-bootstrap/Button'
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useCart } from './CartContext'
 import { formatNumber } from '../assets/pages/Cart'
+import { useUser } from './UserContext'
 
 export default function Navbar() {
-  const { total } = useCart();
-  const [token, setToken] = useState(false)
-    return (
+  const { total } = useCart()
+  const { token, logout } = useUser()
+  const navigate = useNavigate()
+  const setActiveClass = ({isActive}) => (isActive ? "active" : undefined)
+  const cierraSesion = () => {
+    logout()
+    navigate('/')
+  }
+
+  return (
         <>
         <div className='menu'>
             <div className='menu-left'>
             <p>Pizzería Mamma Mia!</p>
-      <Link to="/">
+      <NavLink className={setActiveClass} to="/">
         <Button variant="dark">🍕Home</Button>
-      </Link>
+      </NavLink>
       {token ? (
           <>
-      <Link to="/profile">
+      <NavLink className={setActiveClass} to="/profile">
         <Button variant="dark">🔓Profile</Button>
-      </Link>
-      <Link to="/login">
-        <Button variant="dark">🔒Logout</Button>
-      </Link>
-        <Button variant="dark" onClick={()=>setToken(!token)}>🔄Cambiar token ({token? "true":"false"})</Button>
-
+      </NavLink>
+        <Button variant="dark" onClick={cierraSesion}>🔒Logout</Button>
         </>
       ) : (
           <>
-      <Link to="/login">
+      <NavLink className={setActiveClass} to="/login">
         <Button variant="dark">🔐Login</Button>
-      </Link>
-      <Link to="/register">
+      </NavLink>
+      <NavLink className={setActiveClass} to="/register">
         <Button variant="dark">🔐Register</Button>
-      </Link>
-        <Button variant="dark" onClick={()=>setToken(!token)}>🔄Cambiar token ({token? "true":"false"})</Button>
+      </NavLink>
         </>
       )}
         </div>
         <div>
-      <Link to="/cart">
+      <NavLink className={setActiveClass} to="/cart">
         <Button variant="dark">🛒Total: ${formatNumber(total)}</Button>
-      </Link>
+      </NavLink>
       </div>
       </div>
     </>

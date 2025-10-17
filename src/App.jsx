@@ -8,25 +8,28 @@ import Register from './assets/pages/Register'
 import LoginPage from './assets/pages/LoginPage'
 import Profile from './assets/pages/Profile'
 import NotFound from './assets/pages/NotFound'
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
+import { UserProvider, useUser } from './components/UserContext'
 
 function App() {
 
   return (
+    <UserProvider>
     <div className="contenedor">
       <Navbar />
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/register' element={<Register/>}/>
-        <Route path='/login' element={<LoginPage/>}/>
+        <Route path='/register' element={useUser().token ? <Navigate to="/"/> : <Register/>}/>
+        <Route path='/login' element={useUser().token ? <Navigate to="/"/> : <LoginPage/>}/>
         <Route path='/cart' element={<Cart/>}/>
-        <Route path='/pizza/p001' element={<Pizza/>}/>
-        <Route path='/profile' element={<Profile/>}/>
+        <Route path='/pizza/:id' element={<Pizza/>}/>
+        <Route path='/profile' element={useUser().token ? <Profile/> : <Navigate to="/login"/>}/>
         <Route path='/404' element={<NotFound/>}/>
         <Route path='*' element={<NotFound/>}/>
       </Routes>
         <Footer />
     </div>
+    </UserProvider>
   )
 }
 
